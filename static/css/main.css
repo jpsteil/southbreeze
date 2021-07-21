@@ -1,0 +1,21 @@
+
+button.submit-edit {
+    background-color: white !important;
+    color: black;
+    border: thin solid lightgray !important;
+    width: 2rem;
+    height: 2rem;
+}
+
+button.submit-edit:hover {
+    cursor: pointer;
+}
+
+.grid-col-order_subtotal, .grid-col-order_total {
+    text-align: right !important;
+}
+
+ul {
+    list-style-type: disc !important;
+    padding-left: 1rem;
+}

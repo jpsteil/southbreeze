@@ -1,0 +1,89 @@
+[[extend 'layout.html']]
+<div class="container" style="padding-top: 1em; font-size: .9rem;">
+    <div class="row" style="padding-bottom: 1rem;">
+        <div class="columns">
+            <div class="column is-one-third">
+                <div class="card">
+                    <header class="card-header">
+                        <div class="card-header-title">
+                            SALES REGIONS
+                        </div>
+                    </header>
+                    <div class="card-content">
+                        <div id="sales-regions-target">
+                            <div hx-get="[[=URL('setup/sales_regions') ]]" hx-trigger="load" hx-target="#sales-regions-target">
+                                <img class="htmx-indicator" src="[[=URL('static', 'images/spinner.gif')]]" height="20"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-one-third">
+                <div class="card">
+                    <header class="card-header">
+                        <div class="card-header-title">
+                            TERRITORIES
+                        </div>
+                    </header>
+                    <div class="card-content">
+                        <div id="territories-target">
+                            <div hx-get="[[=URL('setup/territories') ]]" hx-trigger="load" hx-target="#territories-target">
+                                <img class="htmx-indicator" src="[[=URL('static', 'images/spinner.gif')]]" height="20"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-one-third">
+                <div class="card">
+                    <header class="card-header">
+                        <div class="card-header-title">
+                            CUSTOMER TYPES
+                        </div>
+                    </header>
+                    <div class="card-content">
+                        <div id="customer-types-target">
+                            <div hx-get="[[=URL('setup/customer_types') ]]" hx-trigger="load" hx-target="#customer-types-target">
+                                <img class="htmx-indicator" src="[[=URL('static', 'images/spinner.gif')]]" height="20"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column is-one-half">
+                <div class="card">
+                    <header class="card-header">
+                        <div class="card-header-title">
+                            CATEGORIES
+                        </div>
+                    </header>
+                    <div class="card-content">
+                        <div id="categories-target">
+                            <div hx-get="[[=URL('setup/categories') ]]" hx-trigger="load" hx-target="#categories-target">
+                                <img class="htmx-indicator" src="[[=URL('static', 'images/spinner.gif')]]" height="20"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-one-half">
+                <div class="card">
+                    <header class="card-header">
+                        <div class="card-header-title">
+                            SHIPPERS
+                        </div>
+                    </header>
+                    <div class="card-content">
+                        <div id="shippers-target">
+                            <div hx-get="[[=URL('setup/shippers') ]]" hx-trigger="load" hx-target="#shippers-target">
+                                <img class="htmx-indicator" src="[[=URL('static', 'images/spinner.gif')]]" height="20"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

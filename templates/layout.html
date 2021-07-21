@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="[[=URL('static')]]/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon"
+          href="data:image/x-icon;base64,AAABAAEAAQEAAAEAIAAwAAAAFgAAACgAAAABAAAAAgAAAAEAIAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAPAAAAAA=="/>
+    <title>South Breeze Enterprises</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="[[=URL('static', 'css', 'main.css') ]]">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+          integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+          crossorigin="anonymous"/>
+    <style>.py4web-validation-error {
+        font-size: 0.8em;
+        color: red
+    }</style>
+    [[block page_head]]<!-- individual pages can customize header here --> [[end]]
+</head>
+<body>
+<nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="https://bulma.io">
+            <p style="font-size: larger; font-weight: bold;">SOUTH BREEZE</p>
+        </a>
+
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+            <a href="[[=URL('index') ]]" class="navbar-item">
+                Home
+            </a>
+
+            <a href="[[=URL('customers') ]]" class="navbar-item">
+                Customers
+            </a>
+            <a href="[[=URL('employees') ]]" class="navbar-item">
+                Employees
+            </a>
+            <a href="[[=URL('products') ]]" class="navbar-item">
+                Products
+            </a>
+            <a href="[[=URL('orders') ]]" class="navbar-item">
+                Orders
+            </a>
+            <a href="[[=URL('setup') ]]" class="navbar-item">
+                Setup
+            </a>
+        </div>
+    </div>
+</nav>
+<section class="section">
+    <div class="container">
+        [[include]]
+    </div>
+</section>
+
+</body>
+<!-- You've gotta have utils.js -->
+<script src="js/utils.js"></script>
+<script src="https://unpkg.com/htmx.org@1.4.1"></script>
+[[block page_scripts]]<!-- individual pages can add scripts here --> [[end]]
+</html>

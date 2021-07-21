@@ -1,0 +1,509 @@
+timestamp: 2021-07-16T11:33:14.392145
+CREATE TABLE "auth_user"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "email" CHAR(512) UNIQUE,
+    "password" CHAR(512),
+    "first_name" CHAR(512),
+    "last_name" CHAR(512),
+    "sso_id" CHAR(512),
+    "action_token" CHAR(512),
+    "last_password_change" TIMESTAMP,
+    "past_passwords_hash" TEXT
+);
+success!
+timestamp: 2021-07-16T11:33:14.403136
+CREATE TABLE "auth_user_tag_groups"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "path" CHAR(512),
+    "record_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2021-07-16T11:33:14.508263
+CREATE TABLE "sales_region"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nw" CHAR(512),
+    "name" CHAR(50)
+);
+success!
+timestamp: 2021-07-16T11:33:14.520328
+CREATE TABLE "territory"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nw" CHAR(512),
+    "name" CHAR(512),
+    "sales_region" INTEGER REFERENCES "sales_region" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2021-07-16T11:33:14.531414
+CREATE TABLE "customer"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nw" CHAR(512),
+    "name" CHAR(40),
+    "contact" CHAR(30),
+    "title" CHAR(30),
+    "address" CHAR(60),
+    "city" CHAR(15),
+    "region" CHAR(15),
+    "postal_code" CHAR(10),
+    "country" CHAR(15),
+    "phone" CHAR(24),
+    "email" CHAR(256),
+    "territory" INTEGER REFERENCES "territory" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2021-07-16T11:33:14.542861
+CREATE TABLE "shipper"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nw" CHAR(512),
+    "name" CHAR(40),
+    "phone" CHAR(24)
+);
+success!
+timestamp: 2021-07-16T11:33:14.555692
+CREATE TABLE "supplier"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nw" CHAR(512),
+    "name" CHAR(40),
+    "contact" CHAR(30),
+    "title" CHAR(30),
+    "address" CHAR(60),
+    "city" CHAR(15),
+    "region" CHAR(15),
+    "postal_code" CHAR(10),
+    "country" CHAR(15),
+    "phone" CHAR(24),
+    "email" CHAR(256),
+    "homepage" TEXT,
+    "sales_region" INTEGER REFERENCES "sales_region" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2021-07-16T11:33:14.566705
+CREATE TABLE "category"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nw" CHAR(512),
+    "name" CHAR(15),
+    "description" TEXT,
+    "picture" CHAR(512)
+);
+success!
+timestamp: 2021-07-16T11:33:14.579306
+CREATE TABLE "product"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nw" CHAR(512),
+    "name" CHAR(40),
+    "supplier" INTEGER REFERENCES "supplier" ("id") ON DELETE CASCADE  ,
+    "category" INTEGER REFERENCES "category" ("id") ON DELETE CASCADE  ,
+    "quantity_per_unit" CHAR(20),
+    "unit_price" DOUBLE,
+    "in_stock" INTEGER,
+    "on_order" INTEGER,
+    "reorder_level" INTEGER,
+    "discontinued" CHAR(1)
+);
+success!
+timestamp: 2021-07-16T11:33:14.592913
+CREATE TABLE "employee"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nw" CHAR(512),
+    "last_name" CHAR(20),
+    "first_name" CHAR(10),
+    "title" CHAR(30),
+    "title_of_courtesy" CHAR(25),
+    "birth_date" DATE,
+    "hire_date" DATE,
+    "address" CHAR(60),
+    "city" CHAR(15),
+    "region" CHAR(15),
+    "postal_code" CHAR(10),
+    "country" CHAR(15),
+    "phone" CHAR(24),
+    "extension" CHAR(4),
+    "photo" CHAR(512),
+    "notes" TEXT,
+    "supervisor" INTEGER REFERENCES "employee" ("id") ON DELETE CASCADE  ,
+    "sales_region" INTEGER REFERENCES "sales_region" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2021-07-16T11:33:14.604297
+CREATE TABLE "customer_type"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nw" CHAR(512),
+    "name" CHAR(512)
+);
+success!
+timestamp: 2021-07-16T11:33:14.616084
+CREATE TABLE "customer_customer_type"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nw" CHAR(512),
+    "customer" INTEGER REFERENCES "customer" ("id") ON DELETE CASCADE  ,
+    "customer_type" INTEGER REFERENCES "customer_type" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2021-07-16T11:33:14.627764
+CREATE TABLE "employee_territory"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nw" CHAR(512),
+    "employee" INTEGER REFERENCES "employee" ("id") ON DELETE CASCADE  ,
+    "territory" INTEGER REFERENCES "territory" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2021-07-16T11:33:14.639957
+CREATE TABLE "order"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nw" CHAR(512),
+    "customer" INTEGER REFERENCES "customer" ("id") ON DELETE CASCADE  ,
+    "employee" INTEGER REFERENCES "employee" ("id") ON DELETE CASCADE  ,
+    "order_date" DATE,
+    "required_date" DATE,
+    "shipped_date" DATE,
+    "shipper" INTEGER REFERENCES "shipper" ("id") ON DELETE CASCADE  ,
+    "freight" DOUBLE,
+    "ship_to_name" CHAR(40),
+    "ship_to_address" CHAR(60),
+    "ship_to_city" CHAR(15),
+    "ship_to_state" CHAR(2),
+    "ship_to_postal_code" CHAR(10),
+    "ship_to_country" CHAR(15)
+);
+success!
+timestamp: 2021-07-16T11:33:14.650551
+CREATE TABLE "order_detail"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nw" CHAR(512),
+    "product" INTEGER REFERENCES "product" ("id") ON DELETE CASCADE  ,
+    "unit_price" DOUBLE,
+    "quantity" INTEGER,
+    "discount" DOUBLE
+);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2021-07-16T13:00:39.661030
+CREATE TABLE "customer_note"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "customer" INTEGER REFERENCES "customer" ("id") ON DELETE CASCADE  ,
+    "timestamp" TIMESTAMP,
+    "note" TEXT
+);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2021-07-16T15:15:51.652588
+ALTER TABLE "order_detail" ADD "order" INTEGER REFERENCES "order" ("id") ON DELETE CASCADE  ;
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2021-07-19T16:49:49.981587
+ALTER TABLE "order" ADD "ship_to_region" CHAR(15);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!

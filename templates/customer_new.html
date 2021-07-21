@@ -1,0 +1,48 @@
+[[extend 'layout.html']]
+
+<div class="container" style="font-size: .9rem;">
+    <div class="title">CUSTOMERS</div>
+    <div class="row">
+        <div class="columns">
+            <div class="column is-one-third">
+                <div class="card">
+                    <header class="card-header">
+                        <div class="card-header-title">
+                            New [[=tablename.capitalize()]]
+                        </div>
+                    </header>
+                    <div class="card-content">
+                        [[=form.custom.begin]]
+                        <table class="table is-bordered is-fullwidth">
+                            [[for field in DETAIL_FIELDS: ]]
+                                [[ if field not in ['id']: ]]
+                                <tr>
+                                    <td>
+                                        <label for="[[=tablename]]_[[=field]]" class="label details-label">
+                                            [[=form.custom['labels'][field] ]]
+                                        </label>
+                                    </td>
+                                    <td>
+                                        [[if form.custom.widgets[field].name == 'select': ]]
+                                            <div class="select">
+                                                [[=form.custom.widgets[field] ]]
+                                            </div>
+                                        [[else:]]
+                                            [[=form.custom.widgets[field] ]]
+                                        [[pass]]
+                                        [[if field in form.custom['errors']: ]]
+                                            <p class="help is-danger">[[=form.custom['errors'][field] ]]</p>
+                                        [[pass]]
+                                    </td>
+                                </tr>
+                                [[pass]]
+                            [[pass]]
+                        </table>
+                        [[=form.custom.submit]] [[=SPAN(*form.param.sidecar)]]
+                        [[=form.custom.end]]
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

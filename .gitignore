@@ -1,0 +1,9 @@
+*.csv
+.idea
+*.pyc
+/data/*.txt
+\data\*.txt
+/dist/*
+.deposit
+settings_private.py
+

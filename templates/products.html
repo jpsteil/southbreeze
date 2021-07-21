@@ -1,0 +1,71 @@
+[[extend 'layout.html']]
+<script type="text/javascript">
+[[if grid.action == 'select':]]
+    window.addEventListener("load",function() {
+        var form = document.forms[0];
+        if (form != null) {
+            form.addEventListener("submit", function(e1) {
+                e1.preventDefault();
+                var action = new URL(form.action);
+                for (var i = 0; i < form.elements.length; i++) {
+                    var e = form.elements[i];
+                    if (e.name.substring(0,3) === 'sq_') {
+                        action.searchParams.set(encodeURIComponent(e.name), encodeURIComponent(e.value));
+                    }
+                }
+                form.action = action
+                form.submit();
+            });
+        }
+    });
+[[pass]]
+</script>
+<div class="title">PRODUCTS</div>
+[[if grid.action == 'details':]]
+    [[form = grid.render() ]]
+    <div class="container" style="padding-top: 1em; font-size: .9rem;">
+        <div class="row">
+            <div class="columns">
+                <div class="column is-one-half">
+                    <div class="card">
+                        <header class="card-header">
+                            <div class="card-header-title">
+                                DETAILS
+                            </div>
+                        </header>
+                        <div class="card-content">
+                            <div id="details-target">
+                                <div hx-get="[[=URL('product_detail/%s' % parent_id) ]]" hx-trigger="load" hx-target="#details-target">
+                                    <img class="htmx-indicator" src="[[=URL('static', 'images/spinner.gif')]]" height="20"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-one-half">
+                    <div class="card">
+                        <header class="card-header">
+                            <div class="card-header-title">
+                                ORDERS
+                            </div>
+                        </header>
+                        <div class="card-content">
+                            <div id="orders-target">
+                                <div hx-get="[[=URL('product_orders', vars=dict(parent_id=parent_id)) ]]" hx-trigger="load" hx-target="#orders-target">
+                                    <img class="htmx-indicator" src="[[=URL('static', 'images/spinner.gif')]]" height="20"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="padding-top: 1rem;">
+        [[=form.custom.begin ]]
+        [[=form.custom.submit ]]
+        [[=form.custom.end ]]
+    </div>
+[[else:]]
+    [[=grid.render()]]
+[[pass]]
