@@ -106,7 +106,7 @@ def index():
     return dict(message=message)
 
 
-@unauthenticated("setup", "setup.html")
+@authenticated("setup", "setup.html")
 def setup():
     return dict()
 
@@ -148,6 +148,7 @@ def sales_regions(path=None):
         details=False,
         search_form=search.search_form,
         auto_process=False,
+        include_action_button_text=False,
         **gd,
     )
 
@@ -210,6 +211,7 @@ def territories(path=None):
         auto_process=False,
         details=False,
         search_form=search.search_form,
+        include_action_button_text=False,
         **gd,
     )
 
@@ -267,6 +269,7 @@ def customer_types(path=None):
         details=False,
         search_form=search.search_form,
         auto_process=False,
+        include_action_button_text=False,
         **gd,
     )
 
@@ -321,6 +324,7 @@ def categories(path=None):
         auto_process=False,
         details=False,
         search_form=search.search_form,
+        include_action_button_text=False,
         **gd,
     )
 
@@ -376,6 +380,7 @@ def shippers(path=None):
         details=False,
         search_form=search.search_form,
         auto_process=False,
+        include_action_button_text=False,
         **gd,
     )
 
