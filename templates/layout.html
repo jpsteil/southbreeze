@@ -53,6 +53,17 @@
                 Setup
             </a>
         </div>
+        <div class="navbar-end">
+            <div class="buttons">
+                [[if globals().get('user'):]]
+                    <a class="button" href="[[=URL('auth/change_password')]]">Change Password</a>
+                    <a class="button is-primary" href="[[=URL('auth/logout')]]">Logout</a>
+                [[else: ]]
+                    <a class="button is-primary" href="[[=URL('auth/register')]]">Sign up</a>
+                    <a class="button" href="[[=URL('auth/login')]]">Log In</a>
+                [[pass ]]
+            </div>
+        </div>
     </div>
 </nav>
 <section class="section">
