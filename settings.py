@@ -35,7 +35,7 @@ REQUIRES_APPROVAL = False
 # ["all"]
 # ["login", "logout", "request_reset_password", "reset_password", "change_password", "change_email", "update_profile"]
 # if you add "login", add also "logout"
-ALLOWED_ACTIONS = ["all"]
+ALLOWED_ACTIONS = ["login", "logout"]
 
 
 # email settings
