@@ -630,6 +630,7 @@ def customer_notes(path=None):
         left=left,
         auto_process=False,
         details=False,
+        include_action_button_text=False,
         **GRID_DEFAULTS,
     )
 
@@ -691,6 +692,7 @@ def customer_customer_types(path=None):
         left=left,
         auto_process=False,
         details=False,
+        include_action_button_text=False,
         **GRID_DEFAULTS,
     )
 
@@ -753,6 +755,7 @@ def customer_orders(path=None):
         details=False,
         editable=False,
         deletable=False,
+        include_action_button_text=False,
         **GRID_DEFAULTS,
     )
 
@@ -978,6 +981,7 @@ def employee_territories(path=None):
         left=left,
         auto_process=False,
         details=False,
+        include_action_button_text=False,
         **GRID_DEFAULTS,
     )
 
@@ -1031,6 +1035,7 @@ def employee_orders(path=None):
         details=False,
         editable=False,
         deletable=False,
+        include_action_button_text=False,
         **GRID_DEFAULTS,
     )
 
@@ -1302,6 +1307,7 @@ def product_orders(path=None):
         details=False,
         editable=False,
         deletable=False,
+        include_action_button_text=False,
         **gd,
     )
 
