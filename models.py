@@ -63,6 +63,7 @@ db.define_table(
     Field("nw", readable=False, writable=False),
     Field("name", length=40, required=True, requires=IS_NOT_EMPTY()),
     Field("phone", length=24),
+    format=lambda row: row.name if row else "",
 )
 
 db.define_table(
@@ -84,6 +85,7 @@ db.define_table(
         "reference sales_region",
         requires=IS_IN_DB(db, "sales_region.id", "%(name)s", zero=".."),
     ),
+    format=lambda row: row.name if row else "",
 )
 
 db.define_table(
@@ -92,6 +94,7 @@ db.define_table(
     Field("name", length=15, required=True, requires=IS_NOT_EMPTY()),
     Field("description", "text"),
     Field("picture"),
+    format=lambda row: row.name if row else "",
 )
 
 db.define_table(
@@ -102,6 +105,7 @@ db.define_table(
         "supplier",
         "reference supplier",
         requires=IS_IN_DB(db, "supplier.id", "%(name)s", zero=".."),
+        comment="The organization where we purchase this product",
     ),
     Field(
         "category",

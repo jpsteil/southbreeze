@@ -70,6 +70,7 @@ EMPLOYEE_DETAIL_FIELDS = [
 
 PRODUCT_DETAIL_FIELDS = [
     "name",
+    "supplier",
     "category",
     "quantity_per_unit",
     "unit_price",

@@ -8,7 +8,7 @@
     [[for field in form_fields: ]]
         <tr>
             <td>
-                <label for="[[=field._tablename if '_tablename' in field else 'no_table']]_[[=field]]" class="label details-label">
+                <label for="[[=field._tablename if '_tablename' in field else 'no_table']]_[[=field]]" class="label details-label" title="[[=form.custom['comments'][field] ]]">
                     [[=form.custom['labels'][field] ]]
                 </label>
             </td>
