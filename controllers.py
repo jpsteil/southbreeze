@@ -500,7 +500,7 @@ def customer_new():
     form.param.sidecar.append(BUTTON("Cancel", **attrs))
 
     if form.accepted:
-        redirect(URL("customer/details/%s" % form.vars.id))
+        redirect(URL("customers/details/%s" % form.vars["id"]))
 
     return dict(form=form, DETAIL_FIELDS=CUSTOMER_DETAIL_FIELDS, tablename="customer")
 
@@ -854,7 +854,7 @@ def employee_new():
     form.param.sidecar.append(BUTTON("Cancel", **attrs))
 
     if form.accepted:
-        redirect(URL("employee/details/%s" % form.vars.id))
+        redirect(URL("employees/details/%s" % form.vars["id"]))
 
     return dict(form=form, DETAIL_FIELDS=EMPLOYEE_DETAIL_FIELDS, tablename="employee")
 
@@ -1176,7 +1176,7 @@ def product_new():
     form.param.sidecar.append(BUTTON("Cancel", **attrs))
 
     if form.accepted:
-        redirect(URL("product/details/%s" % form.vars.id))
+        redirect(URL("products/details/%s" % form.vars["id"]))
 
     return dict(form=form, DETAIL_FIELDS=PRODUCT_DETAIL_FIELDS, tablename="product")
 
@@ -1480,7 +1480,7 @@ def order_new():
     form.param.sidecar.append(BUTTON("Cancel", **attrs))
 
     if form.accepted:
-        redirect(URL("order/details/%s" % form.vars.id))
+        redirect(URL("orders/details/%s" % form.vars["id"]))
 
     return dict(form=form, DETAIL_FIELDS=ORDER_DETAIL_FIELDS, tablename="order")
 
