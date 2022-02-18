@@ -557,3 +557,29 @@ success!
 success!
 success!
 success!
+timestamp: 2022-02-18T13:09:43.010832
+ALTER TABLE "auth_user_tag_groups" ADD "tagpath" CHAR(512);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!

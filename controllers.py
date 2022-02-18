@@ -1,6 +1,6 @@
 import copy
 
-import bottle
+import ombott
 from pydal.validators import IS_NULL_OR, IS_IN_DB
 from yatl import TAG, XML, I
 
@@ -115,10 +115,10 @@ def setup():
 @action("setup/sales_regions", method=["POST", "GET"])
 @action("setup/sales_regions/<path:path>", method=["POST", "GET"])
 @action.uses(
+    "htmx/grid.html",
     session,
     db,
     auth.user,
-    "htmx/grid.html",
 )
 def sales_regions(path=None):
     queries = [db.sales_region.id > 0]
@@ -170,10 +170,10 @@ def sales_regions(path=None):
 @action("setup/territories", method=["POST", "GET"])
 @action("setup/territories/<path:path>", method=["POST", "GET"])
 @action.uses(
+    "htmx/grid.html",
     session,
     db,
     auth,
-    "htmx/grid.html",
 )
 def territories(path=None):
     queries = [db.territory.id > 0]
@@ -233,10 +233,10 @@ def territories(path=None):
 @action("setup/customer_types", method=["POST", "GET"])
 @action("setup/customer_types/<path:path>", method=["POST", "GET"])
 @action.uses(
+    "htmx/grid.html",
     session,
     db,
     auth.user,
-    "htmx/grid.html",
 )
 def customer_types(path=None):
     orderby = [db.customer_type.name]
@@ -291,10 +291,10 @@ def customer_types(path=None):
 @action("setup/categories", method=["POST", "GET"])
 @action("setup/categories/<path:path>", method=["POST", "GET"])
 @action.uses(
+    "htmx/grid.html",
     session,
     db,
     auth,
-    "htmx/grid.html",
 )
 def categories(path=None):
     queries = [db.category.id > 0]
@@ -346,10 +346,10 @@ def categories(path=None):
 @action("setup/shippers", method=["POST", "GET"])
 @action("setup/shippers/<path:path>", method=["POST", "GET"])
 @action.uses(
+    "htmx/grid.html",
     session,
     db,
     auth.user,
-    "htmx/grid.html",
 )
 def shippers(path=None):
     orderby = [db.shipper.name]
@@ -402,10 +402,10 @@ def shippers(path=None):
 @action("customers", method=["POST", "GET"])
 @action("customers/<path:path>", method=["POST", "GET"])
 @action.uses(
+    "customers.html",
     session,
     db,
     auth.user,
-    "customers.html",
 )
 def customers(path=None):
     search_queries = [
@@ -481,9 +481,9 @@ def customers(path=None):
     method=["GET", "POST"],
 )
 @action.uses(
+    "customer_new.html",
     session,
     db,
-    "customer_new.html",
 )
 def customer_new():
     db.customer.id.readable = False
@@ -506,11 +506,16 @@ def customer_new():
 
 
 @action("customer_detail/<customer_id>", method=["GET", "POST"])
-@action.uses(session, db, auth.user, "htmx/form.html")
+@action.uses(
+    "htmx/form.html",
+    session,
+    db,
+    auth.user,
+)
 def customer_detail(customer_id=None):
     customer = db.customer(customer_id)
     if not customer:
-        bottle.abort(
+        ombott.abort(
             code=401,
             text="Could not retrieve customer.  Please contact support.",
         )
@@ -549,15 +554,15 @@ def customer_detail(customer_id=None):
     method=["GET", "POST"],
 )
 @action.uses(
+    "htmx/form.html",
     session,
     db,
     auth.user,
-    "htmx/form.html",
 )
 def customer_detail_edit(customer_id=None):
     customer = db.customer(customer_id)
     if not customer:
-        bottle.abort(
+        ombott.abort(
             code=401,
             text="Could not retrieve customer.  Please contact support.",
         )
@@ -597,10 +602,10 @@ def customer_detail_edit(customer_id=None):
 @action("customer_notes", method=["POST", "GET"])
 @action("customer_notes/<path:path>", method=["POST", "GET"])
 @action.uses(
+    "htmx/grid.html",
     session,
     db,
     auth,
-    "htmx/grid.html",
 )
 def customer_notes(path=None):
     #  set the default
@@ -658,10 +663,10 @@ def customer_notes(path=None):
 @action("customer_customer_types", method=["POST", "GET"])
 @action("customer_customer_types/<path:path>", method=["POST", "GET"])
 @action.uses(
+    "htmx/grid.html",
     session,
     db,
     auth,
-    "htmx/grid.html",
 )
 def customer_customer_types(path=None):
     #  set the default
@@ -725,10 +730,10 @@ def get_products_for_row(row):
 @action("customer_orders", method=["POST", "GET"])
 @action("customer_orders/<path:path>", method=["POST", "GET"])
 @action.uses(
+    "htmx/grid.html",
     session,
     db,
     auth,
-    "htmx/grid.html",
 )
 def customer_orders(path=None):
     #  set the default
@@ -773,10 +778,10 @@ def customer_orders(path=None):
 @action("employees", method=["POST", "GET"])
 @action("employees/<path:path>", method=["POST", "GET"])
 @action.uses(
+    "employees.html",
     session,
     db,
     auth.user,
-    "employees.html",
 )
 def employees(path=None):
     search_queries = [
@@ -835,9 +840,9 @@ def employees(path=None):
     method=["GET", "POST"],
 )
 @action.uses(
+    "employee_new.html",
     session,
     db,
-    "employee_new.html",
 )
 def employee_new():
     db.employee.id.readable = False
@@ -860,11 +865,11 @@ def employee_new():
 
 
 @action("employee_detail/<employee_id>", method=["GET", "POST"])
-@action.uses(session, db, auth.user, "htmx/form.html")
+@action.uses("htmx/form.html", session, db, auth.user)
 def employee_detail(employee_id=None):
     employee = db.employee(employee_id)
     if not employee:
-        bottle.abort(
+        ombott.abort(
             code=401,
             text="Could not retrieve employee.  Please contact support.",
         )
@@ -903,15 +908,15 @@ def employee_detail(employee_id=None):
     method=["GET", "POST"],
 )
 @action.uses(
+    "htmx/form.html",
     session,
     db,
     auth.user,
-    "htmx/form.html",
 )
 def employee_detail_edit(employee_id=None):
     employee = db.employee(employee_id)
     if not employee:
-        bottle.abort(
+        ombott.abort(
             code=401,
             text="Could not retrieve employee.  Please contact support.",
         )
@@ -951,10 +956,10 @@ def employee_detail_edit(employee_id=None):
 @action("employee_territories", method=["POST", "GET"])
 @action("employee_territories/<path:path>", method=["POST", "GET"])
 @action.uses(
+    "htmx/grid.html",
     session,
     db,
     auth,
-    "htmx/grid.html",
 )
 def employee_territories(path=None):
     #  set the default
@@ -1005,10 +1010,10 @@ def employee_territories(path=None):
 @action("employee_orders", method=["POST", "GET"])
 @action("employee_orders/<path:path>", method=["POST", "GET"])
 @action.uses(
+    "htmx/grid.html",
     session,
     db,
     auth,
-    "htmx/grid.html",
 )
 def employee_orders(path=None):
     #  set the default
@@ -1053,10 +1058,10 @@ def employee_orders(path=None):
 @action("products", method=["POST", "GET"])
 @action("products/<path:path>", method=["POST", "GET"])
 @action.uses(
+    "products.html",
     session,
     db,
     auth.user,
-    "products.html",
 )
 def products(path=None):
     search_queries = [
@@ -1157,9 +1162,9 @@ def products(path=None):
     method=["GET", "POST"],
 )
 @action.uses(
+    "product_new.html",
     session,
     db,
-    "product_new.html",
 )
 def product_new():
     db.product.id.readable = False
@@ -1182,11 +1187,16 @@ def product_new():
 
 
 @action("product_detail/<product_id>", method=["GET", "POST"])
-@action.uses(session, db, auth.user, "htmx/form.html")
+@action.uses(
+    "htmx/form.html",
+    session,
+    db,
+    auth.user,
+)
 def product_detail(product_id=None):
     product = db.product(product_id)
     if not product:
-        bottle.abort(
+        ombott.abort(
             code=401,
             text="Could not retrieve product.  Please contact support.",
         )
@@ -1225,15 +1235,15 @@ def product_detail(product_id=None):
     method=["GET", "POST"],
 )
 @action.uses(
+    "htmx/form.html",
     session,
     db,
     auth.user,
-    "htmx/form.html",
 )
 def product_detail_edit(product_id=None):
     product = db.product(product_id)
     if not product:
-        bottle.abort(
+        ombott.abort(
             code=401,
             text="Could not retrieve product.  Please contact support.",
         )
@@ -1273,10 +1283,10 @@ def product_detail_edit(product_id=None):
 @action("product_orders", method=["POST", "GET"])
 @action("product_orders/<path:path>", method=["POST", "GET"])
 @action.uses(
+    "htmx/grid.html",
     session,
     db,
     auth,
-    "htmx/grid.html",
 )
 def product_orders(path=None):
     #  set the default
@@ -1325,10 +1335,10 @@ def product_orders(path=None):
 @action("orders", method=["POST", "GET"])
 @action("orders/<path:path>", method=["POST", "GET"])
 @action.uses(
+    "orders.html",
     session,
     db,
     auth.user,
-    "orders.html",
 )
 def orders(path=None):
     search_queries = [
@@ -1461,9 +1471,9 @@ def orders(path=None):
     method=["GET", "POST"],
 )
 @action.uses(
+    "order_new.html",
     session,
     db,
-    "order_new.html",
 )
 def order_new():
     db.order.id.readable = False
@@ -1486,11 +1496,16 @@ def order_new():
 
 
 @action("order_detail/<order_id>", method=["GET", "POST"])
-@action.uses(session, db, auth.user, "htmx/form.html")
+@action.uses(
+    "htmx/form.html",
+    session,
+    db,
+    auth.user,
+)
 def order_detail(order_id=None):
     order = db.order(order_id)
     if not order:
-        bottle.abort(
+        ombott.abort(
             code=401,
             text="Could not retrieve order.  Please contact support.",
         )
@@ -1529,15 +1544,15 @@ def order_detail(order_id=None):
     method=["GET", "POST"],
 )
 @action.uses(
+    "htmx/form.html",
     session,
     db,
     auth.user,
-    "htmx/form.html",
 )
 def order_detail_edit(order_id=None):
     order = db.order(order_id)
     if not order:
-        bottle.abort(
+        ombott.abort(
             code=401,
             text="Could not retrieve order.  Please contact support.",
         )
@@ -1577,10 +1592,10 @@ def order_detail_edit(order_id=None):
 @action("order_details", method=["POST", "GET"])
 @action("order_details/<path:path>", method=["POST", "GET"])
 @action.uses(
+    "htmx/grid.html",
     session,
     db,
     auth,
-    "htmx/grid.html",
 )
 def order_details(path=None):
     #  set the default
