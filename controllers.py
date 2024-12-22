@@ -1,6 +1,7 @@
 import copy
 
 import ombott
+from dateutil.parser import parse
 from pydal.validators import IS_NULL_OR, IS_IN_DB
 from yatl import TAG, XML, I
 
@@ -417,20 +418,30 @@ def customers(path=None):
     queries = [(db.customer.id > 0)]
     fields = [
         Column(
-            "name",
-            lambda row: XML(
+            "Name",
+            represent=lambda row: XML(
                 f"{row.name}<br />{row.address}<br />{row.city}, {row.region} {row.postal_code}"
             ),
+            required_fields=[
+                db.customer.name,
+                db.customer.address,
+                db.customer.city,
+                db.customer.region,
+                db.customer.postal_code,
+            ],
             orderby=db.customer.name,
         ),
         Column(
-            "contact",
-            lambda row: XML(f"{row.contact}<br />{row.title}<br />{row.phone}"),
+            "Contact",
+            represent=lambda row: XML(
+                f"{row.contact}<br />{row.title}<br />{row.phone}"
+            ),
+            required_fields=[db.customer.contact, db.customer.title, db.customer.phone],
             orderby=db.customer.contact,
         ),
         Column(
-            "types",
-            lambda row: XML(
+            "Types",
+            represent=lambda row: XML(
                 ",<br />".join(
                     x.name
                     for x in db(
@@ -748,7 +759,13 @@ def customer_orders(path=None):
         path,
         fields=[
             db.order.id,
-            db.order.order_date,
+            Column(
+                "Order Date",
+                represent=lambda row: row.order_date.strftime("%m/%d/%Y")
+                if row.order_date
+                else "",
+                required_fields=[db.order.order_date],
+            ),
             db.order.subtotal,
             db.order.freight,
             db.order.total,
@@ -765,9 +782,9 @@ def customer_orders(path=None):
         **GRID_DEFAULTS,
     )
 
-    grid.formatters_by_type["date"] = (
-        lambda value: value.strftime("%m/%d/%Y") if value else ""
-    )
+    # grid.formatters_by_type["date"] = (
+    #     lambda value: value.strftime("%m/%d/%Y") if value else ""
+    # )
 
     grid.attributes_plugin = AttributesPluginHtmx("#orders-target")
     grid.process()
@@ -796,10 +813,18 @@ def employees(path=None):
     queries = [(db.employee.id > 0)]
     fields = [
         Column(
-            "name",
+            "Name",
             lambda row: XML(
                 f"{row.first_name} {row.last_name}<br />{row.address}<br />{row.city}, {row.region} {row.postal_code}"
             ),
+            required_fields=[
+                db.employee.first_name,
+                db.employee.last_name,
+                db.employee.address,
+                db.employee.city,
+                db.employee.region,
+                db.employee.postal_code,
+            ],
             orderby=db.employee.last_name,
         ),
     ]
@@ -1028,7 +1053,13 @@ def employee_orders(path=None):
         path,
         fields=[
             db.order.id,
-            db.order.order_date,
+            Column(
+                "Order Date",
+                represent=lambda row: row.order_date.strftime("%m/%d/%Y")
+                if row.order_date
+                else "",
+                required_fields=[db.order.order_date],
+            ),
             db.order.subtotal,
             db.order.freight,
             db.order.total,
@@ -1304,7 +1335,13 @@ def product_orders(path=None):
         path,
         fields=[
             db.order.id,
-            db.order.order_date,
+            Column(
+                "Order Date",
+                represent=lambda row: row.order.order_date.strftime("%m/%d/%Y")
+                if row.order.order_date
+                else "",
+                required_fields=[db.order.order_date],
+            ),
             db.order.subtotal,
             db.order.freight,
             db.order.total,
@@ -1320,10 +1357,6 @@ def product_orders(path=None):
         deletable=False,
         include_action_button_text=False,
         **gd,
-    )
-
-    grid.formatters_by_type["date"] = (
-        lambda value: value.strftime("%m/%d/%Y") if value else ""
     )
 
     grid.attributes_plugin = AttributesPluginHtmx("#orders-target")
@@ -1383,9 +1416,14 @@ def orders(path=None):
     queries = [(db.order.id > 0)]
     fields = [
         db.order.id,
-        db.order.order_date,
         Column(
-            "customer",
+            "Ordered",
+            represent=lambda row: row.order.order_date,
+            required_fields=[db.order.order_date],
+            orderby=[db.order.order_date],
+        ),
+        Column(
+            "Customer",
             lambda row: XML(
                 f"{row.customer.name}<br />{row.customer.address}<br />{row.customer.city}, {row.customer.region} {row.customer.postal_code}"
             ),
@@ -1399,14 +1437,21 @@ def orders(path=None):
             ],
         ),
         Column(
-            "deliver_to",
+            "Deliver To",
             lambda row: XML(
                 f"{row.order.ship_to_name}<br />{row.order.ship_to_address}<br />{row.order.ship_to_city}, {row.order.ship_to_region} {row.order.ship_to_postal_code}"
             ),
+            required_fields=[
+                db.order.ship_to_name,
+                db.order.ship_to_address,
+                db.order.ship_to_city,
+                db.order.ship_to_region,
+                db.order.ship_to_postal_code,
+            ],
             orderby=db.order.ship_to_name,
         ),
         Column(
-            "sold_by",
+            "Sold By",
             lambda row: XML(
                 f"{row.employee.first_name} {row.employee.last_name}<br />{row.employee.address}<br />{row.employee.city}, {row.employee.region} {row.employee.postal_code}"
             ),
@@ -1420,8 +1465,18 @@ def orders(path=None):
                 db.employee.postal_code,
             ],
         ),
-        db.order.required_date,
-        db.order.shipped_date,
+        Column(
+            "Required",
+            represent=lambda row: row.order.required_date,
+            required_fields=[db.order.required_date],
+            orderby=[db.order.required_date],
+        ),
+        Column(
+            "Shipped",
+            represent=lambda row: row.order.shipped_date,
+            required_fields=[db.order.shipped_date],
+            orderby=[db.order.shipped_date],
+        ),
     ]
     orderby = [~db.order.order_date]
 
@@ -1633,6 +1688,7 @@ def order_details(path=None):
                 "quantity",
                 lambda row: row.order_detail.quantity,
                 td_class_style="grid-cell-type-float",
+                required_fields=[db.order_detail.quantity],
                 orderby=db.order_detail.quantity,
             ),
             db.order_detail.discount,
